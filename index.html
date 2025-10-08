@@ -19,7 +19,6 @@
             position: relative;
         }
 
-        /* Animated treasure elements */
         .treasure-coin {
             position: fixed;
             width: 40px;
@@ -111,7 +110,7 @@
             border-radius: 15px;
             z-index: -1;
             opacity: 0.3;
-            animation: glow 10s ease-in-out infinite;
+            animation: glow 3s ease-in-out infinite;
         }
 
         @keyframes glow {
@@ -121,7 +120,7 @@
 
         .header {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
         }
 
         .header h1 {
@@ -146,42 +145,6 @@
             font-style: italic;
         }
 
-        .script-url-section {
-            background: rgba(26, 31, 58, 0.5);
-            padding: 20px;
-            border-radius: 10px;
-            margin: 20px 0;
-            border-left: 4px solid #d4af37;
-        }
-
-        .script-url-section input {
-            margin-top: 10px;
-        }
-
-        .script-url-section small {
-            color: #a0aec0;
-            display: block;
-            margin-top: 5px;
-        }
-
-        .script-url-section {
-            background: rgba(26, 31, 58, 0.5);
-            padding: 20px;
-            border-radius: 10px;
-            margin: 20px 0;
-            border-left: 4px solid #d4af37;
-        }
-
-        .script-url-section input {
-            margin-top: 10px;
-        }
-
-        .script-url-section small {
-            color: #a0aec0;
-            display: block;
-            margin-top: 5px;
-        }
-
         .form-group {
             margin-bottom: 25px;
         }
@@ -200,7 +163,6 @@
 
         input[type="text"],
         input[type="tel"],
-        input[type="url"],
         select {
             width: 100%;
             padding: 12px;
@@ -229,30 +191,19 @@
             box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
         }
 
-        .radio-group {
-            display: flex;
-            gap: 30px;
-            margin-top: 10px;
+        .team-section {
+            background: rgba(26, 31, 58, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid #d4af37;
         }
 
-        .radio-option {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            cursor: pointer;
-        }
-
-        input[type="radio"] {
-            width: 20px;
-            height: 20px;
-            cursor: pointer;
-            accent-color: #ffd700;
-        }
-
-        .radio-label {
-            color: #fff;
-            font-size: 1em;
-            cursor: pointer;
+        .section-title {
+            color: #ffd700;
+            font-size: 1.2em;
+            margin-bottom: 15px;
+            text-align: center;
         }
 
         .submit-btn {
@@ -281,26 +232,6 @@
             transform: translateY(0);
         }
 
-        .team-section {
-            background: rgba(26, 31, 58, 0.5);
-            padding: 20px;
-            border-radius: 10px;
-            margin: 20px 0;
-            border-left: 4px solid #d4af37;
-            display: none;
-        }
-
-        .team-section.active {
-            display: block;
-        }
-
-        .section-title {
-            color: #ffd700;
-            font-size: 1.2em;
-            margin-bottom: 15px;
-            text-align: center;
-        }
-
         .footer {
             text-align: center;
             margin-top: 30px;
@@ -312,7 +243,7 @@
 
         .profsummit-notice {
             background: rgba(255, 99, 71, 0.1);
-            border: 2px solid #000000;
+            border: 2px solid #ff6347;
             border-radius: 8px;
             padding: 15px;
             margin-top: 15px;
@@ -343,16 +274,10 @@
             .header h2 {
                 font-size: 1.1em;
             }
-
-            .radio-group {
-                flex-direction: column;
-                gap: 15px;
-            }
         }
     </style>
 </head>
 <body>
-    <!-- Animated treasure elements -->
     <div class="treasure-coin"></div>
     <div class="treasure-coin"></div>
     
@@ -376,7 +301,7 @@
     <div class="container">
         <div class="form-wrapper">
             <div class="header">
-                <h1> OPERATION CYPHER </h1>
+                <h1>OPERATION CYPHER ⚔️</h1>
                 <h2>State Level Treasure Hunt</h2>
                 <p>Solve clues and uncover secrets across the venue</p>
             </div>
@@ -387,61 +312,22 @@
                     <input type="text" id="college" name="college" required>
                 </div>
 
-                <div class="form-group">
-                    <label>Participation Type <span class="required">*</span></label>
-                    <div class="radio-group">
-                        <div class="radio-option">
-                            <input type="radio" id="solo" name="participationType" value="solo" required>
-                            <label for="solo" class="radio-label">Solo</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="team" name="participationType" value="team" required>
-                            <label for="team" class="radio-label">Team</label>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Solo Section -->
-                <div class="team-section" id="soloSection">
-                    <div class="section-title">👤 Solo Participant</div>
-                    <div class="form-group">
-                        <label for="soloName">Name <span class="required">*</span></label>
-                        <input type="text" id="soloName" name="soloName">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="soloPhone">Phone Number <span class="required">*</span></label>
-                        <input type="tel" id="soloPhone" name="soloPhone">
-                    </div>
-                </div>
-
-                <!-- Team Section -->
-                <div class="team-section" id="teamSection">
+                <div class="team-section">
                     <div class="section-title">👥 Team Details</div>
                     
                     <div class="form-group">
                         <label for="teamLeadName">Team Lead Name <span class="required">*</span></label>
-                        <input type="text" id="teamLeadName" name="teamLeadName">
+                        <input type="text" id="teamLeadName" name="teamLeadName" required>
                     </div>
 
                     <div class="form-group">
-                        <label for="leadPhone">Team Lead Phone Number <span class="required">*</span></label>
-                        <input type="tel" id="leadPhone" name="leadPhone">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="member2Name">Team Member 2 Name</label>
-                        <input type="text" id="member2Name" name="member2Name">
+                        <label for="leadPhone">Phone Number <span class="required">*</span></label>
+                        <input type="tel" id="leadPhone" name="leadPhone" required>
                     </div>
 
                     <div class="form-group">
                         <label for="member2Phone">Team Member 2 Phone Number</label>
                         <input type="tel" id="member2Phone" name="member2Phone">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="member3Name">Team Member 3 Name</label>
-                        <input type="text" id="member3Name" name="member3Name">
                     </div>
 
                     <div class="form-group">
@@ -474,50 +360,10 @@
     </div>
 
     <script>
-        // ===== CONFIGURATION =====
-        // Paste your Google Apps Script Web App URL here
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzS0obmVYjxzs6jR0XFEbzziQNuaBLBt-fP-5uAQbIK0TBd-PLg7L0ienm2Ke7IFGf2BQ/exec';
-        // =========================
-
-        const soloRadio = document.getElementById('solo');
-        const teamRadio = document.getElementById('team');
-        const soloSection = document.getElementById('soloSection');
-        const teamSection = document.getElementById('teamSection');
         const profSummitSelect = document.getElementById('profSummit');
         const profSummitNotice = document.getElementById('profSummitNotice');
+        const SCRIPT_URL = 'YOUR_SCRIPT_URL_HERE';
 
-        // Handle Solo/Team radio button changes
-        soloRadio.addEventListener('change', function() {
-            if (this.checked) {
-                soloSection.classList.add('active');
-                teamSection.classList.remove('active');
-                
-                // Make solo fields required
-                document.getElementById('soloName').required = true;
-                document.getElementById('soloPhone').required = true;
-                
-                // Remove team required fields
-                document.getElementById('teamLeadName').required = false;
-                document.getElementById('leadPhone').required = false;
-            }
-        });
-
-        teamRadio.addEventListener('change', function() {
-            if (this.checked) {
-                teamSection.classList.add('active');
-                soloSection.classList.remove('active');
-                
-                // Make team fields required
-                document.getElementById('teamLeadName').required = true;
-                document.getElementById('leadPhone').required = true;
-                
-                // Remove solo required fields
-                document.getElementById('soloName').required = false;
-                document.getElementById('soloPhone').required = false;
-            }
-        });
-
-        // Handle Profsummit dropdown
         profSummitSelect.addEventListener('change', function() {
             if (this.value === 'no') {
                 profSummitNotice.classList.add('active');
@@ -526,34 +372,20 @@
             }
         });
 
-        // Handle form submission
         document.getElementById('registrationForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
-            const participationType = document.querySelector('input[name="participationType"]:checked').value;
-            
             let formData = {
                 college: document.getElementById('college').value,
-                participationType: participationType,
+                teamLeadName: document.getElementById('teamLeadName').value,
+                leadPhone: document.getElementById('leadPhone').value,
+                member2Phone: document.getElementById('member2Phone').value,
+                member3Phone: document.getElementById('member3Phone').value,
                 profSummit: document.getElementById('profSummit').value,
                 timestamp: new Date().toLocaleString()
             };
 
-            // Add solo or team data based on selection
-            if (participationType === 'solo') {
-                formData.soloName = document.getElementById('soloName').value;
-                formData.soloPhone = document.getElementById('soloPhone').value;
-            } else {
-                formData.teamLeadName = document.getElementById('teamLeadName').value;
-                formData.leadPhone = document.getElementById('leadPhone').value;
-                formData.member2Name = document.getElementById('member2Name').value;
-                formData.member2Phone = document.getElementById('member2Phone').value;
-                formData.member3Name = document.getElementById('member3Name').value;
-                formData.member3Phone = document.getElementById('member3Phone').value;
-            }
-
-            if (SCRIPT_URL && SCRIPT_URL !== 'YOUR_SCRIPT_URL_HERE') {
-                // Send to Google Apps Script
+            if (SCRIPT_URL !== 'YOUR_SCRIPT_URL_HERE') {
                 fetch(SCRIPT_URL, {
                     method: 'POST',
                     mode: 'no-cors',
@@ -565,21 +397,17 @@
                 .then(() => {
                     alert('🎉 Registration Successful! Your quest begins now, treasure hunter!');
                     this.reset();
-                    soloSection.classList.remove('active');
-                    teamSection.classList.remove('active');
                     profSummitNotice.classList.remove('active');
                 })
                 .catch((error) => {
                     console.error('Error:', error);
                     alert('✅ Data sent! Your quest begins now, treasure hunter!');
                     this.reset();
-                    soloSection.classList.remove('active');
-                    teamSection.classList.remove('active');
                     profSummitNotice.classList.remove('active');
                 });
             } else {
                 console.log('Registration Data:', formData);
-                alert('⚠️ Please configure SCRIPT_URL in the JavaScript code. For now, data is logged to console.');
+                alert('⚠️ Please enter Google Apps Script URL to save data. For now, data is logged to console.');
             }
         });
     </script>
