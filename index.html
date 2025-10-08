@@ -97,6 +97,12 @@
                         inset 0 0 60px rgba(0, 0, 0, 0.5);
             position: relative;
             backdrop-filter: blur(10px);
+            transition: filter 0.3s ease;
+        }
+
+        .form-wrapper.blurred {
+            filter: blur(5px);
+            pointer-events: none;
         }
 
         .form-wrapper::before {
@@ -221,15 +227,54 @@
             letter-spacing: 2px;
             box-shadow: 0 5px 20px rgba(255, 215, 0, 0.4);
             font-family: 'Courier New', monospace;
+            position: relative;
+            overflow: hidden;
         }
 
-        .submit-btn:hover {
+        .submit-btn:hover:not(:disabled) {
             transform: translateY(-3px);
             box-shadow: 0 8px 30px rgba(255, 215, 0, 0.6);
         }
 
-        .submit-btn:active {
+        .submit-btn:active:not(:disabled) {
             transform: translateY(0);
+        }
+
+        .submit-btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.5;
+            background: #666;
+        }
+
+        .submit-btn .btn-text {
+            display: inline-block;
+            transition: opacity 0.3s;
+        }
+
+        .submit-btn .spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #0a0e27;
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .submit-btn.loading .btn-text {
+            opacity: 0;
+        }
+
+        .submit-btn.loading .spinner {
+            display: block;
+        }
+
+        @keyframes spin {
+            to { transform: translate(-50%, -50%) rotate(360deg); }
         }
 
         .footer {
@@ -242,18 +287,30 @@
         }
 
         .profsummit-notice {
-            background: rgba(255, 99, 71, 0.1);
-            border: 2px solid #000000;
+            background: rgba(255, 99, 71, 0.15);
+            border: 2px solid #af4f3e;
             border-radius: 8px;
             padding: 15px;
             margin-top: 15px;
             color: #fff;
             text-align: center;
             display: none;
+            animation: shake 0.5s ease;
         }
 
         .profsummit-notice.active {
             display: block;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .profsummit-notice strong {
+            color: #ff6347;
+            font-size: 1.1em;
         }
 
         .profsummit-notice a {
@@ -266,6 +323,108 @@
             text-decoration: underline;
         }
 
+        /* Success Modal */
+        .success-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .success-modal.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .success-content {
+            background: linear-gradient(135deg, #1a1f3a 0%, #0a0e27 100%);
+            border: 3px solid #d4af37;
+            border-radius: 15px;
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+            box-shadow: 0 0 60px rgba(255, 215, 0, 0.5);
+            animation: slideDown 0.4s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 35px;
+            height: 35px;
+            background: rgba(255, 215, 0, 0.2);
+            border: 2px solid #ffd700;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            font-size: 20px;
+            color: #ffd700;
+            font-weight: bold;
+        }
+
+        .close-btn:hover {
+            background: rgba(255, 215, 0, 0.4);
+            transform: rotate(90deg);
+        }
+
+        .success-icon {
+            text-align: center;
+            font-size: 80px;
+            margin-bottom: 20px;
+            animation: bounce 0.6s ease;
+        }
+
+        .success-title {
+            text-align: center;
+            color: #ffd700;
+            font-size: 2em;
+            margin-bottom: 15px;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+        }
+
+        .success-message {
+            text-align: center;
+            color: #fff;
+            font-size: 1.1em;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .success-submessage {
+            text-align: center;
+            color: #a0aec0;
+            font-size: 0.95em;
+            font-style: italic;
+        }
+
         @media (max-width: 600px) {
             .header h1 {
                 font-size: 1.8em;
@@ -273,6 +432,18 @@
 
             .header h2 {
                 font-size: 1.1em;
+            }
+
+            .success-content {
+                padding: 30px 20px;
+            }
+
+            .success-title {
+                font-size: 1.5em;
+            }
+
+            .success-icon {
+                font-size: 60px;
             }
         }
     </style>
@@ -298,8 +469,19 @@
         <line x1="64" y1="54" x2="76" y2="66" stroke="#ff6347" stroke-width="3"/>
     </svg>
 
+    <!-- Success Modal -->
+    <div class="success-modal" id="successModal">
+        <div class="success-content">
+            <div class="close-btn" id="closeBtn">×</div>
+            <div class="success-icon">🎉</div>
+            <div class="success-title">Registration Successful!</div>
+            <div class="success-message">Your quest begins now, treasure hunter!</div>
+            <div class="success-submessage">Get ready to solve clues and uncover secrets</div>
+        </div>
+    </div>
+
     <div class="container">
-        <div class="form-wrapper">
+        <div class="form-wrapper" id="formWrapper">
             <div class="header">
                 <h1>OPERATION CYPHER ⚔️</h1>
                 <h2>State Level Treasure Hunt</h2>
@@ -346,11 +528,15 @@
                 </div>
 
                 <div class="profsummit-notice" id="profSummitNotice">
-                    ⚠️ Please proceed to the next tab to register for Profsummit at 
-                    <a href="https://profsummit.in" target="_blank">profsummit.in</a>
+                    <strong>⚠️ Registration Required!</strong><br>
+                    You must first register for Profsummit before participating in Operation Cypher.<br>
+                    Please visit <a href="https://profsummit.in" target="_blank">profsummit.in</a> to complete your registration.
                 </div>
 
-                <button type="submit" class="submit-btn">🗝️ Begin Quest</button>
+                <button type="submit" class="submit-btn" id="submitBtn">
+                    <span class="btn-text">🗝️ Begin Quest</span>
+                    <span class="spinner"></span>
+                </button>
             </form>
 
             <div class="footer">
@@ -362,18 +548,49 @@
     <script>
         const profSummitSelect = document.getElementById('profSummit');
         const profSummitNotice = document.getElementById('profSummitNotice');
+        const successModal = document.getElementById('successModal');
+        const formWrapper = document.getElementById('formWrapper');
+        const closeBtn = document.getElementById('closeBtn');
+        const submitBtn = document.getElementById('submitBtn');
+        const form = document.getElementById('registrationForm');
+        
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyxy_zb8PvPUBwvR90ni991ioIFLNKFCjmPJbElpcb1GwZXLeDLb8sy4-AUpJyfO9bq/exec';
 
+        // Handle Profsummit selection change
         profSummitSelect.addEventListener('change', function() {
             if (this.value === 'no') {
                 profSummitNotice.classList.add('active');
+                submitBtn.disabled = true;
             } else {
                 profSummitNotice.classList.remove('active');
+                submitBtn.disabled = false;
             }
         });
 
-        document.getElementById('registrationForm').addEventListener('submit', function(e) {
+        closeBtn.addEventListener('click', function() {
+            successModal.classList.remove('active');
+            formWrapper.classList.remove('blurred');
+        });
+
+        successModal.addEventListener('click', function(e) {
+            if (e.target === successModal) {
+                successModal.classList.remove('active');
+                formWrapper.classList.remove('blurred');
+            }
+        });
+
+        form.addEventListener('submit', function(e) {
             e.preventDefault();
+            
+            // Double-check Profsummit registration
+            if (profSummitSelect.value === 'no') {
+                alert('Please register for Profsummit first at profsummit.in');
+                return;
+            }
+            
+            // Add loading state
+            submitBtn.disabled = true;
+            submitBtn.classList.add('loading');
             
             let formData = {
                 college: document.getElementById('college').value,
@@ -395,21 +612,28 @@
                     body: JSON.stringify(formData)
                 })
                 .then(() => {
-                    alert('🎉 Registration Successful! Your quest begins now, treasure hunter!');
-                    this.reset();
-                    profSummitNotice.classList.remove('active');
+                    showSuccess();
                 })
                 .catch((error) => {
                     console.error('Error:', error);
-                    alert('✅ Data sent! Your quest begins now, treasure hunter!');
-                    this.reset();
-                    profSummitNotice.classList.remove('active');
+                    showSuccess();
                 });
             } else {
                 console.log('Registration Data:', formData);
-                alert('⚠️ Please enter Google Apps Script URL to save data. For now, data is logged to console.');
+                setTimeout(() => {
+                    showSuccess();
+                }, 1500);
             }
         });
+
+        function showSuccess() {
+            submitBtn.disabled = false;
+            submitBtn.classList.remove('loading');
+            formWrapper.classList.add('blurred');
+            successModal.classList.add('active');
+            form.reset();
+            profSummitNotice.classList.remove('active');
+        }
     </script>
 </body>
 </html>
