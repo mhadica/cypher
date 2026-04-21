@@ -90,9 +90,28 @@ body {
 }
 .latin-title {
   font-family: 'Cinzel', serif;
-  font-size: clamp(11px, 3.2vw, 13px);
-  letter-spacing: 5px; text-transform: uppercase;
-  color: var(--text-muted); margin-bottom: 22px;
+  font-size: clamp(28px, 7vw, 36px);
+  letter-spacing: 8px; text-transform: uppercase;
+  color: var(--gold-light);
+  font-weight: 600;
+  margin-bottom: 16px;
+  text-shadow: 0 0 40px rgba(245,208,106,0.3);
+}
+.event-title {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(20px, 5.5vw, 26px);
+  letter-spacing: 4px; text-transform: uppercase;
+  color: var(--gold-light);
+  font-weight: 600;
+  margin-bottom: 18px;
+  text-shadow: 0 0 35px rgba(245,208,106,0.25);
+}
+.event-details {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(11px, 3vw, 13px);
+  letter-spacing: 2px;
+  color: var(--text-muted);
+  margin-bottom: 22px;
 }
 .chips {
   display: flex; flex-wrap: wrap; justify-content: center;
@@ -256,12 +275,8 @@ body {
     </svg>
 
     <div class="latin-title">Thartheel</div>
-
-    <div class="chips">
-      <span class="chip hot">28 April 2026</span>
-      <span class="chip">9 : 00 PM</span>
-      <span class="chip hot">Grand Quran Quiz</span>
-    </div>
+    <div class="event-title">Grand Quran Quiz</div>
+    <div class="event-details">28 April 2026 · 9:00 PM</div>
   </div>
 
   <div class="form-card">
@@ -328,7 +343,7 @@ body {
 
         <div class="field">
           <label for="phone">Phone Number</label>
-          <input id="phone" type="tel" placeholder="+91 00000 00000" autocomplete="tel" inputmode="tel"/>
+          <input id="phone" type="tel" placeholder="10-digit mobile number" autocomplete="tel" inputmode="numeric" maxlength="10" pattern="[0-9]{10}"/>
         </div>
 
         <button type="button" onclick="handleSubmit()" class="submit-btn">Register ✦</button>
@@ -395,6 +410,19 @@ body {
       }
     });
 
+    // Validate phone number (must be exactly 10 digits)
+    const phoneField = document.getElementById('phone');
+    const phoneValue = phoneField.value.trim().replace(/\D/g, ''); // Remove non-digits
+    
+    if (phoneValue.length !== 10) {
+      phoneField.classList.add('err');
+      if (!firstErr) firstErr = phoneField;
+      phoneField.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      phoneField.focus();
+      alert('Please enter a valid 10-digit phone number');
+      return;
+    }
+
     if (firstErr) {
       firstErr.scrollIntoView({ behavior: 'smooth', block: 'center' });
       firstErr.focus();
@@ -413,7 +441,7 @@ body {
       course: fields[2].value.trim(),
       year: fields[3].value.trim(),
       district: fields[4].value.trim(),
-      phone: fields[5].value.trim()
+      phone: phoneValue // Send cleaned 10-digit number
     };
 
     try {
