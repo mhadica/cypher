@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 <meta name="theme-color" content="#051a0b"/>
 <title>Thartheel — Grand Quran Quiz</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Noto+Kufi+Arabic:wght@400;700&family=Cinzel:wght@400;600&display=swap" rel="stylesheet"/>
 <style>
 :root {
@@ -254,38 +255,12 @@ body {
       <circle cx="68" cy="37" r="35" fill="#051a0b"/>
     </svg>
 
-    <div class="org-badge">Campus Syndicate · SSF Kerala</div>
-    <span class="arabic-title">ترتيل</span>
     <div class="latin-title">Thartheel</div>
 
     <div class="chips">
       <span class="chip hot">28 April 2026</span>
       <span class="chip">9 : 00 PM</span>
-      <span class="chip">Grand Quran Quiz</span>
-    </div>
-  </div>
-
-  <div class="ornament">
-    <div class="orn-line"></div>
-    <span class="orn-dot">✦</span>
-    <div class="orn-line"></div>
-  </div>
-
-  <div class="prizes">
-    <div class="prize-card g">
-      <div class="prize-rank">1st</div>
-      <div class="prize-amount">₹5K</div>
-      <div class="prize-label">Books</div>
-    </div>
-    <div class="prize-card s">
-      <div class="prize-rank">2nd</div>
-      <div class="prize-amount">₹3K</div>
-      <div class="prize-label">Books</div>
-    </div>
-    <div class="prize-card b">
-      <div class="prize-rank">3rd</div>
-      <div class="prize-amount">₹2K</div>
-      <div class="prize-label">Books</div>
+      <span class="chip hot">Grand Quran Quiz</span>
     </div>
   </div>
 
@@ -372,16 +347,13 @@ body {
   </div>
 
   <div class="footer">
-    <span>SSF Kerala</span>
-    <span class="footer-dot">✦</span>
-    <span>Holy Quran Premio</span>
-    <span class="footer-dot">✦</span>
-    <span>ssfkeralacampus</span>
+    <span>Kerala Campus Syndicate</span>
   </div>
 
 </div>
 
 <script>
+  const APPS_SCRIPT_URL = '';
   /* Stars */
   const layer = document.getElementById('starsLayer');
   for (let i = 0; i < 50; i++) {
@@ -405,7 +377,7 @@ body {
   });
 
   /* Submit */
-  function handleSubmit() {
+  async function handleSubmit() {
     const fields = [
       document.getElementById('fname'),
       document.getElementById('college'),
@@ -429,12 +401,52 @@ body {
       return;
     }
 
-    const name = fields[0].value.trim().split(' ')[0];
-    document.getElementById('formWrap').style.display = 'none';
-    const ss = document.getElementById('successScreen');
-    ss.style.display = 'block';
-    document.getElementById('successTitle').textContent = `Ahlan, ${name}!`;
-    ss.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    // Disable submit button to prevent double submission
+    const submitBtn = event.target;
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Submitting...';
+
+    // Prepare data for Google Sheets
+    const formData = {
+      fullName: fields[0].value.trim(),
+      college: fields[1].value.trim(),
+      course: fields[2].value.trim(),
+      year: fields[3].value.trim(),
+      district: fields[4].value.trim(),
+      phone: fields[5].value.trim()
+    };
+
+    try {
+      // Send data to Google Apps Script (if URL is configured)
+      if (APPS_SCRIPT_URL && APPS_SCRIPT_URL.trim() !== '') {
+        const response = await fetch(APPS_SCRIPT_URL, {
+          method: 'POST',
+          mode: 'no-cors', // Required for Apps Script
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData)
+        });
+        // Note: With no-cors mode, we can't read the response
+        // But if no error is thrown, we assume success
+      } else {
+        console.warn('APPS_SCRIPT_URL not configured. Form data not saved to Google Sheets.');
+      }
+      
+      // Show success screen
+      const name = fields[0].value.trim().split(' ')[0];
+      document.getElementById('formWrap').style.display = 'none';
+      const ss = document.getElementById('successScreen');
+      ss.style.display = 'block';
+      document.getElementById('successTitle').textContent = `Ahlan, ${name}!`;
+      ss.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      alert('There was an error submitting your registration. Please try again.');
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Register ✦';
+    }
   }
 </script>
 </body>
